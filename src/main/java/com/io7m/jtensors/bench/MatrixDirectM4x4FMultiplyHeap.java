@@ -17,7 +17,6 @@
 package com.io7m.jtensors.bench;
 
 import com.io7m.jtensors.Matrix4x4FType;
-import com.io7m.jtensors.MatrixDirect4x4FType;
 import com.io7m.jtensors.MatrixDirectM4x4F;
 import com.io7m.jtensors.MatrixHeapArrayM4x4F;
 import com.io7m.jtensors.MatrixM4x4F;
@@ -36,33 +35,32 @@ import org.slf4j.LoggerFactory;
 import java.security.SecureRandom;
 
 @State(Scope.Benchmark)
-public class MatrixHeapArrayM4x4FMultiplyCopyDirect
+public class MatrixDirectM4x4FMultiplyHeap
 {
   private static final Logger LOG;
 
   static {
-    LOG = LoggerFactory.getLogger(MatrixHeapArrayM4x4FMultiplyCopyDirect.class);
+    LOG = LoggerFactory.getLogger(MatrixDirectM4x4FMultiplyHeap.class);
   }
 
-  private Matrix4x4FType       m0 = MatrixHeapArrayM4x4F.newMatrix();
-  private Matrix4x4FType       m1 = MatrixHeapArrayM4x4F.newMatrix();
-  private MatrixDirect4x4FType m2 = MatrixDirectM4x4F.newMatrix();
+  private Matrix4x4FType m0 = MatrixDirectM4x4F.newMatrix();
+  private Matrix4x4FType m1 = MatrixDirectM4x4F.newMatrix();
+  private Matrix4x4FType m2 = MatrixHeapArrayM4x4F.newMatrix();
 
   public static void main(final String[] args)
     throws RunnerException
   {
     final Options opt = new OptionsBuilder()
-      .include(MatrixHeapArrayM4x4FMultiplyCopyDirect.class.getName())
+      .include(MatrixDirectM4x4FMultiplyHeap.class.getName())
       .verbosity(VerboseMode.EXTRA)
       .forks(1)
-      .threads(1)
       .build();
     new Runner(opt).run();
   }
 
   public void stateSetup()
   {
-    MatrixHeapArrayM4x4FMultiplyCopyDirect.LOG.debug("setting up state");
+    MatrixDirectM4x4FMultiplyHeap.LOG.debug("setting up state");
 
     final SecureRandom rng = new SecureRandom();
 
